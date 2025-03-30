@@ -58,7 +58,7 @@ func main() {
 
 	// Эмуляция устройств
 	for i := 1; i <= deviceCount; i++ {
-		go devices.SimulateDevice(fmt.Sprintf("switch%d", i), mqttClient, redisClient, kafkaWriter, dbConn)
+		go devices.SimulateDevice(fmt.Sprintf("switch%d", i))
 	}
 
 	// Бесконечный цикл для предотвращения завершения программы
