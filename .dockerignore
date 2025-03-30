@@ -1,0 +1,12 @@
+# Игнорировать все Go бинарники
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Игнорировать директории
+.git
+.gitignore
+.idea
+node_modules
