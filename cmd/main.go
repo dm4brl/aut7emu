@@ -32,25 +32,25 @@ func main() {
 	}
 
 	// Инициализация всех сервисов
-	mqttClient, err := mqtt.Connect(mqttBroker, "aut7emu-switch-emulator")
+	mqttClient := mqtt.Connect(mqttBroker, "aut7emu-switch-emulator")
 	if err != nil {
 		log.Fatalf("Ошибка подключения к MQTT: %v", err)
 	}
 	log.Println("MQTT подключение установлено")
 
-	redisClient, err := redis.Connect(redisAddr)
+	redisClient := redis.Connect(redisAddr)
 	if err != nil {
 		log.Fatalf("Ошибка подключения к Redis: %v", err)
 	}
 	log.Println("Redis подключение установлено")
 
-	kafkaWriter, err := kafka.Connect(kafkaBroker, "device-events")
+	kafkaWriter := kafka.Connect(kafkaBroker, "device-events")
 	if err != nil {
 		log.Fatalf("Ошибка подключения к Kafka: %v", err)
 	}
 	log.Println("Kafka подключение установлено")
 
-	dbConn, err := db.Connect(postgresURL)
+	dbConn := db.Connect(postgresURL)
 	if err != nil {
 		log.Fatalf("Ошибка подключения к PostgreSQL: %v", err)
 	}
