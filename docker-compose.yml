@@ -49,21 +49,20 @@ services:
 
   # Kafka
   kafka:
-  image: wurstmeister/kafka:latest
-  container_name: kafka
-  environment:
-    - KAFKA_LISTENER_SECURITY_PROTOCOL=PLAINTEXT
-    - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093  # Для контейнеров внутри сети
-    - KAFKA_LISTENER_PORT=9093
-    - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-  ports:
-    - "9093:9093"  # Проброс порта 9093 для подключения изнутри сети
-  depends_on:
-    - zookeeper
-  networks:
-    - lighting-net
-  restart: always
-
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
+      - KAFKA_LISTENER_SECURITY_PROTOCOL=PLAINTEXT
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093  # Для контейнеров внутри сети
+      - KAFKA_LISTENER_PORT=9093
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    ports:
+      - "9093:9093"  # Проброс порта 9093 для подключения изнутри сети
+    depends_on:
+      - zookeeper
+    networks:
+      - lighting-net
+    restart: always
 
   # Zookeeper
   zookeeper:
