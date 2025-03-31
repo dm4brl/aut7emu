@@ -1,30 +1,29 @@
 # Используем официальный образ Go
 FROM golang:1.20-alpine AS build
 
-# Установим зависимости для сборки
-RUN apk add --no-cache git
-
-# Рабочая директория
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем исходный код в контейнер
+# Копируем go.mod и go.sum в контейнер (для кеширования зависимостей)
+COPY go.mod go.sum ./
+
+# Скачиваем зависимости
+RUN go mod download
+
+# Копируем весь код проекта в контейнер
 COPY . .
 
-# Сборка бинарного файла
-RUN go mod tidy
-RUN go build -o switch-emulator .
+# Строим проект
+RUN go build -o switch-emulator ./cmd
 
 # Создаем финальный образ
 FROM alpine:latest
 
-# Устанавливаем зависимости для выполнения (MQTT, Redis, Kafka)
+# Устанавливаем зависимости для выполнения (опционально)
 RUN apk add --no-cache ca-certificates
 
-# Копируем собранный бинарник
+# Копируем собранный бинарник из предыдущего этапа
 COPY --from=build /app/switch-emulator /usr/local/bin/switch-emulator
 
-# Порт, который будет слушать приложение
-EXPOSE 8080
-
-# Запуск приложения
+# Стартуем приложение
 CMD ["/usr/local/bin/switch-emulator"]
