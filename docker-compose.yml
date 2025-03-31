@@ -10,6 +10,9 @@ services:
       - REDIS_HOST=redis:6379
       - KAFKA_BROKER=kafka:9092
       - POSTGRES_HOST=postgres:5432
+      - POSTGRES_USER=secure_user
+      - POSTGRES_PASSWORD=secure_password_123
+      - POSTGRES_DB=device_db
     depends_on:
       - emqx
       - redis
@@ -22,6 +25,8 @@ services:
   emqx:
     image: emqx/emqx:latest
     container_name: emqx
+    environment:
+      - EMQX_LISTENER__TCP__DEFAULT=1883
     ports:
       - "1883:1883"   # MQTT
       - "18083:18083" # Web UI для EMQX
@@ -32,6 +37,10 @@ services:
   redis:
     image: redis:latest
     container_name: redis
+    environment:
+      - REDIS_PASSWORD=redis_secure_pass_123
+    ports:
+      - "6379:6379"
     networks:
       - lighting-net
 
@@ -48,6 +57,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER: INSIDE
       KAFKA_LISTENER_PORT: 9093
+      KAFKA_USER: kafka_user
+      KAFKA_PASSWORD: kafka_secure_pass_123
     ports:
       - "9092:9092"
     depends_on:
@@ -59,6 +70,8 @@ services:
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper
+    environment:
+      - ZOOKEEPER_PASSWORD=zookeeper_pass_123
     ports:
       - "2181:2181"
     networks:
@@ -69,8 +82,8 @@ services:
     image: postgres:latest
     container_name: postgres
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: secure_user
+      POSTGRES_PASSWORD: secure_password_123
       POSTGRES_DB: device_db
     ports:
       - "5432:5432"
