@@ -24,11 +24,10 @@ func main() {
 	// Получаем параметры подключения из переменных окружения
 mqttBroker := getEnv("MQTT_BROKER", "tcp://localhost:1883")
 redisAddr := getEnv("REDIS_HOST", "localhost:6379")
-redisPassword := getEnv("REDIS_PASSWORD", "")  // Используется для подключения к Redis
+redisPassword := getEnv("REDIS_PASSWORD", "")  // используйте переменную если нужно
 kafkaBroker := getEnv("KAFKA_BROKER", "localhost:9092")
-kafkaUser := getEnv("KAFKA_USER", "")          // Используется для подключения к Kafka
-kafkaPassword := getEnv("KAFKA_PASSWORD", "")  // Используется для подключения к Kafka
 postgresURL := getEnv("POSTGRES_URL", "postgres://user:password@localhost:5432/device_db?sslmode=disable")
+
 
 	deviceCount, err := strconv.Atoi(getEnv("DEVICE_COUNT", "1000"))
 	if err != nil {
