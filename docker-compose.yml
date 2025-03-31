@@ -9,10 +9,8 @@ services:
       - MQTT_BROKER=tcp://emqx:1883
       - REDIS_HOST=redis:6379
       - KAFKA_BROKER=kafka:9093
-      - POSTGRES_HOST=postgres:5432
-      - POSTGRES_USER=secure_user
-      - POSTGRES_PASSWORD=secure_password_123
-      - POSTGRES_DB=device_db
+      - POSTGRES_URL=postgres://secure_user:secure_password_123@postgres:5432/device_db?sslmode=disable
+      - DEVICE_COUNT=1000
     depends_on:
       - emqx
       - redis
