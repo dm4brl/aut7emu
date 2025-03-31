@@ -48,23 +48,24 @@ services:
     restart: always
 
   # Kafka
-  kafka:
-    image: wurstmeister/kafka:latest
-    container_name: kafka
-    environment:
-      - KAFKA_LISTENER_SECURITY_PROTOCOL=PLAINTEXT
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093  # Для контейнеров внутри сети
-      - KAFKA_LISTENER_PORT=9093
+    kafka:
+      image: wurstmeister/kafka:latest
+      container_name: kafka
+      environment:
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_LISTENERS=INSIDE://0.0.0.0:9093
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT
-    ports:
-      - "9093:9093"  # Проброс порта 9093 для подключения изнутри сети
-    depends_on:
+      ports:
+      - "9092:9092"
+      - "9093:9093"
+      depends_on:
       - zookeeper
-    networks:
+      networks:
       - lighting-net
-    restart: always
+      restart: always
+
 
   # Zookeeper
   zookeeper:
