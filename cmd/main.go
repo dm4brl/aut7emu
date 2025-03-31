@@ -6,12 +6,12 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/dm4brl/aut7emu/internal/db"
+/*	"github.com/dm4brl/aut7emu/internal/db"
 	"github.com/dm4brl/aut7emu/internal/devices"
 	"github.com/dm4brl/aut7emu/internal/kafka"
 	"github.com/dm4brl/aut7emu/internal/mqtt"
 	"github.com/dm4brl/aut7emu/internal/redis"
-	"github.com/joho/godotenv"
+	"github.com/joho/godotenv" */
 )
 
 func main() {
