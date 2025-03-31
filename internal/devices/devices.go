@@ -1,15 +1,13 @@
 package devices
 
 import (
-	"fmt"
-	"math/rand"
-	"time"
-
-	"github.com/streadway/amqp"
-	"github.com/dm4brl/aut7emu/internal/mqtt"
-	"github.com/dm4brl/aut7emu/internal/redis"
-	"github.com/dm4brl/aut7emu/internal/db"
-	"github.com/dm4brl/aut7emu/internal/rabbitmq"
+    "fmt"
+    "time"
+    "math/rand"
+    "switch-emulator/internal/mqtt"
+    "switch-emulator/internal/redis"
+    "switch-emulator/internal/kafka"
+    "switch-emulator/internal/db"
 )
 
 // Эмуляция устройства, которое периодически меняет свое состояние
