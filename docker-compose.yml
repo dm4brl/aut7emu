@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Эмулятор свитчей
@@ -20,7 +20,7 @@ services:
       - postgres
     networks:
       - lighting-net
-    restart: always  # Перезапуск контейнера при сбое
+    restart: always
 
   # EMQX - MQTT брокер
   emqx:
@@ -48,24 +48,23 @@ services:
     restart: always
 
   # Kafka
-    kafka:
-      image: wurstmeister/kafka:latest
-      container_name: kafka
-      environment:
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
       - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093,PLAINTEXT_HOST://localhost:9092
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093,PLAINTEXT_HOST://localhost:9092
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      ports:
+    ports:
       - "9092:9092"
       - "9093:9093"
-      depends_on:
+    depends_on:
       - zookeeper
-      networks:
+    networks:
       - lighting-net
-      restart: always
-
+    restart: always
 
   # Zookeeper
   zookeeper:
