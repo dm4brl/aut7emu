@@ -7,9 +7,9 @@ import (
 
 	"github.com/dm4brl/aut7emu/internal/db"
 	"github.com/dm4brl/aut7emu/internal/devices"
-	"github.com/dm4brl/aut7emu/internal/kafka"
 	"github.com/dm4brl/aut7emu/internal/mqtt"
 	"github.com/dm4brl/aut7emu/internal/redis"
+	"github.com/dm4brl/aut7emu/internal/rabbitmq"
 	"github.com/joho/godotenv"
 )
 
@@ -23,7 +23,7 @@ func main() {
 	// Получаем параметры подключения из переменных окружения
 	mqttBroker := getEnv("MQTT_BROKER", "tcp://localhost:1883")
 	redisAddr := getEnv("REDIS_HOST", "localhost:6379")
-	kafkaBroker := getEnv("KAFKA_BROKER", "localhost:9092")
+	rabbitMQHost := getEnv("RABBITMQ_HOST", "localhost:5672")
 	postgresURL := getEnv("POSTGRES_URL", "postgres://user:password@localhost:5432/device_db?sslmode=disable")
 
 	deviceCount, err := strconv.Atoi(getEnv("DEVICE_COUNT", "1000"))
@@ -44,11 +44,11 @@ func main() {
 	}
 	log.Println("Redis подключение установлено")
 
-	kafkaWriter := kafka.Connect(kafkaBroker, "device-events")
-	if kafkaWriter == nil {
-		log.Fatalf("Ошибка подключения к Kafka: %v", err)
+	rabbitMQChannel := rabbitmq.Connect(rabbitMQHost)
+	if rabbitMQChannel == nil {
+		log.Fatalf("Ошибка подключения к RabbitMQ: %v", err)
 	}
-	log.Println("Kafka подключение установлено")
+	log.Println("RabbitMQ подключение установлено")
 
 	dbConn := db.Connect(postgresURL)
 	if dbConn == nil {
