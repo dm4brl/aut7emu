@@ -6,12 +6,12 @@ import (
 	"os"
 	"strconv"
 
-/*	"github.com/dm4brl/aut7emu/internal/db"
+	"github.com/dm4brl/aut7emu/internal/db"
 	"github.com/dm4brl/aut7emu/internal/devices"
 	"github.com/dm4brl/aut7emu/internal/kafka"
 	"github.com/dm4brl/aut7emu/internal/mqtt"
 	"github.com/dm4brl/aut7emu/internal/redis"
-	"github.com/joho/godotenv" */
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -31,31 +31,31 @@ func main() {
 		deviceCount = 1000
 	}
 
-/*	// Инициализация всех сервисов
+	// Инициализация всех сервисов
 	mqttClient := mqtt.Connect(mqttBroker, "aut7emu-switch-emulator")
-	if err != nil {
+	if mqttClient == nil {
 		log.Fatalf("Ошибка подключения к MQTT: %v", err)
 	}
 	log.Println("MQTT подключение установлено")
 
 	redisClient := redis.Connect(redisAddr)
-	if err != nil {
+	if redisClient == nil {
 		log.Fatalf("Ошибка подключения к Redis: %v", err)
 	}
 	log.Println("Redis подключение установлено")
 
 	kafkaWriter := kafka.Connect(kafkaBroker, "device-events")
-	if err != nil {
+	if kafkaWriter == nil {
 		log.Fatalf("Ошибка подключения к Kafka: %v", err)
 	}
 	log.Println("Kafka подключение установлено")
 
 	dbConn := db.Connect(postgresURL)
-	if err != nil {
+	if dbConn == nil {
 		log.Fatalf("Ошибка подключения к PostgreSQL: %v", err)
 	}
 	log.Println("Подключение к PostgreSQL установлено")
-*/
+
 	// Эмуляция устройств
 	for i := 1; i <= deviceCount; i++ {
 		go devices.SimulateDevice(fmt.Sprintf("switch%d", i))
