@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   switch-emulator:
     build: .
@@ -25,8 +27,8 @@ services:
     environment:
       - EMQX_LISTENER__TCP__DEFAULT=1883
     ports:
-      - "1883:1883"   # MQTT
-      - "18083:18083" # Web UI для EMQX
+      - "1883:1883"
+      - "18083:18083"
     networks:
       - lighting-net
     restart: always
@@ -38,6 +40,25 @@ services:
       - REDIS_PASSWORD=redis_secure_pass_123
     ports:
       - "6379:6379"
+    networks:
+      - lighting-net
+    restart: always
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    ports:
+      - "9093:9093"
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka-data:/var/lib/kafka/data
     networks:
       - lighting-net
     restart: always
