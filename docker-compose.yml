@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   # Эмулятор свитчей
@@ -56,6 +56,8 @@ services:
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093  # Для контейнеров внутри сети
       - KAFKA_LISTENER_PORT=9093
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_LISTENERS=INSIDE://0.0.0.0:9093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT
     ports:
       - "9093:9093"  # Проброс порта 9093 для подключения изнутри сети
     depends_on:
