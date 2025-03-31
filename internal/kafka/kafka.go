@@ -15,7 +15,7 @@ func Connect(kafkaAddr string, topic string) *kafka.Writer {
     }
 
     // Проверка подключения
-    _, err := writer.WriteMessages(context.Background(), kafka.Message{
+    err := writer.WriteMessages(context.Background(), kafka.Message{
         Value: []byte("test"),
     })
     if err != nil {
@@ -27,11 +27,10 @@ func Connect(kafkaAddr string, topic string) *kafka.Writer {
 
 // Отправка сообщения в Kafka
 func SendMessage(writer *kafka.Writer, message string) {
-    err := writer.WriteMessages(nil, kafka.Message{
+    err := writer.WriteMessages(context.Background(), kafka.Message{
         Value: []byte(message),
     })
     if err != nil {
         log.Printf("Ошибка отправки сообщения в Kafka: %v", err)
     }
 }
-
