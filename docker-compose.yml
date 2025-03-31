@@ -9,8 +9,10 @@ services:
       - MQTT_BROKER=tcp://emqx:1883
       - REDIS_HOST=redis:6379
       - KAFKA_BROKER=kafka:9093
-      - POSTGRES_URL=postgres://secure_user:secure_password_123@postgres:5432/device_db?sslmode=disable
-      - DEVICE_COUNT=1000
+      - POSTGRES_HOST=postgres:5432
+      - POSTGRES_USER=secure_user
+      - POSTGRES_PASSWORD=secure_password_123
+      - POSTGRES_DB=device_db
     depends_on:
       - emqx
       - redis
@@ -60,6 +62,8 @@ services:
       - "9093:9093"
     depends_on:
       - zookeeper
+    volumes:
+      - kafka-data:/var/lib/kafka/data
     networks:
       - lighting-net
     restart: always
@@ -72,6 +76,9 @@ services:
       - ZOOKEEPER_PASSWORD=zookeeper_pass_123
     ports:
       - "2181:2181"
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+      - zookeeper-log:/var/lib/zookeeper/log
     networks:
       - lighting-net
     restart: always
@@ -93,3 +100,8 @@ services:
 networks:
   lighting-net:
     driver: bridge
+
+volumes:
+  kafka-data:
+  zookeeper-data:
+  zookeeper-log:
