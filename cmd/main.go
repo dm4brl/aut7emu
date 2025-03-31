@@ -31,7 +31,7 @@ func main() {
 		deviceCount = 1000
 	}
 
-	// Инициализация всех сервисов
+/*	// Инициализация всех сервисов
 	mqttClient := mqtt.Connect(mqttBroker, "aut7emu-switch-emulator")
 	if err != nil {
 		log.Fatalf("Ошибка подключения к MQTT: %v", err)
@@ -55,7 +55,7 @@ func main() {
 		log.Fatalf("Ошибка подключения к PostgreSQL: %v", err)
 	}
 	log.Println("Подключение к PostgreSQL установлено")
-
+*/
 	// Эмуляция устройств
 	for i := 1; i <= deviceCount; i++ {
 		go devices.SimulateDevice(fmt.Sprintf("switch%d", i))
