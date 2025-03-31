@@ -4,10 +4,10 @@ import (
     "fmt"
     "time"
     "math/rand"
-    "github.com/dm4brl/aut7emu/internal/mqtt"
+ /*   "github.com/dm4brl/aut7emu/internal/mqtt"
     "github.com/dm4brl/aut7emu/internal/redis"
     "github.com/dm4brl/aut7emu/internal/kafka"
-    "github.com/dm4brl/aut7emu/internal/db"
+    "github.com/dm4brl/aut7emu/internal/db" */
 )
 
 // Эмуляция устройства, которое периодически меняет свое состояние
