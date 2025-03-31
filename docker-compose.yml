@@ -1,7 +1,4 @@
-version: "3.8"
-
 services:
-  # Эмулятор свитчей
   switch-emulator:
     build: .
     container_name: switch-emulator
@@ -22,7 +19,6 @@ services:
       - lighting-net
     restart: always
 
-  # EMQX - MQTT брокер
   emqx:
     image: emqx/emqx:latest
     container_name: emqx
@@ -35,7 +31,6 @@ services:
       - lighting-net
     restart: always
 
-  # Redis - кэш
   redis:
     image: redis:latest
     container_name: redis
@@ -47,7 +42,6 @@ services:
       - lighting-net
     restart: always
 
-  # Kafka
   kafka:
     image: wurstmeister/kafka:latest
     container_name: kafka
@@ -68,7 +62,6 @@ services:
       - lighting-net
     restart: always
 
-  # Zookeeper
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper
@@ -83,7 +76,6 @@ services:
       - lighting-net
     restart: always
 
-  # PostgreSQL
   postgres:
     image: postgres:latest
     container_name: postgres
