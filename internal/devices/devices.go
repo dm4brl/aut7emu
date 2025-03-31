@@ -11,7 +11,7 @@ import (
 )
 
 // Эмуляция устройства, которое периодически меняет свое состояние
-func SimulateDevice(deviceID) {
+func SimulateDevice(deviceID string) {
     states := []string{"ON", "OFF"}
     for {
         state := states[rand.Intn(len(states))] // случайное состояние
