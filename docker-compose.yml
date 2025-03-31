@@ -8,7 +8,7 @@ services:
     environment:
       - MQTT_BROKER=tcp://emqx:1883
       - REDIS_HOST=redis:6379
-      - KAFKA_BROKER=kafka:9092
+      - KAFKA_BROKER=kafka:9093
       - POSTGRES_HOST=postgres:5432
       - POSTGRES_USER=secure_user
       - POSTGRES_PASSWORD=secure_password_123
@@ -20,6 +20,7 @@ services:
       - postgres
     networks:
       - lighting-net
+    restart: always  # Перезапуск контейнера при сбое
 
   # EMQX - MQTT брокер
   emqx:
@@ -32,6 +33,7 @@ services:
       - "18083:18083" # Web UI для EMQX
     networks:
       - lighting-net
+    restart: always
 
   # Redis - кэш
   redis:
@@ -43,26 +45,25 @@ services:
       - "6379:6379"
     networks:
       - lighting-net
+    restart: always
 
   # Kafka
   kafka:
     image: wurstmeister/kafka:latest
     container_name: kafka
     environment:
-      KAFKA_ADVERTISED_LISTENER: PLAINTEXT://kafka:9093   # Внутри контейнеров
-      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
-      KAFKA_LISTENER_NAME_INSIDE: INSIDE
-      KAFKA_LISTENER_PORT_INSIDE: 9093
-      KAFKA_LISTENER_INTER_BROKER: INSIDE
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER: INSIDE
-      KAFKA_LISTENER_PORT: 9093
+      - KAFKA_LISTENER_SECURITY_PROTOCOL=PLAINTEXT
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9093   # Внутри контейнеров
+      - KAFKA_LISTENER=INSIDE
+      - KAFKA_LISTENER_PORT=9093
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
     ports:
-      - "9092:9092"  # Проброс порта 9092 для подключения извне
+      - "9093:9093"  # Проброс порта 9093 для подключения изнутри сети
     depends_on:
       - zookeeper
     networks:
       - lighting-net
+    restart: always
 
   # Zookeeper
   zookeeper:
@@ -74,6 +75,7 @@ services:
       - "2181:2181"
     networks:
       - lighting-net
+    restart: always
 
   # PostgreSQL
   postgres:
@@ -87,6 +89,7 @@ services:
       - "5432:5432"
     networks:
       - lighting-net
+    restart: always
 
 networks:
   lighting-net:
